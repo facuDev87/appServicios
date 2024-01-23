@@ -1,0 +1,65 @@
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/fragments/head :: head" ></head>
+    <body>
+
+        <header th:replace="/fragments/header :: header" > </header>
+
+        <main>
+
+
+            <div class="row registro-usuario ">
+                <div class="registro">
+                    <div><h3 class="text-center my-5">Usuario Registro</h3></div>
+                    <div>
+                        <form th:action="@{/registro-usuario}" method="POST" enctype="multipart/form-data" class="row g-3">
+                            <div class="col-md-6 form-floating">
+                                <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required>
+                                <label for="nombre" class="form-label">Nombre</label>
+                            </div>
+                            <div class="col-md-6 form-floating">
+                                <input name="apellido" type="text" class="form-control" id="apellido" placeholder="Apellido" required>
+                                <label for="apellido" class="form-label">Apellido</label>
+                            </div>
+                            <div class="col-md-6 form-floating">
+                                <input name="email" type="email" class="form-control" id="email"  placeholder="Ej: usuario@mail.com" required >
+                                <label for="email" class="form-label">Email</label>
+                            </div>
+                            <div class="col-md-6 form-floating">
+                                <input name="archivo" type="file" id="imagen" class="form-control my-2" >
+                                <label for="imagen">Imagen de perfil:</label>
+                            </div>
+                            <div class="col-md-6 form-floating">
+                                <input name="password" type="password" class="form-control" id="contraseña" placeholder="Contraseña"  required>
+                                <label for="contraseña" class="form-label">Contraseña</label>
+                            </div>
+                            <div class="col-md-6 form-floating">
+                                <input name="password2" type="password" class="form-control" id="contraseña2" placeholder="Repita su contraseña"  required>
+                                <label for="contraseña2" class="form-label">Repita su contraseña</label>
+                            </div>
+
+                            <!-- DATOS ENVIADOS -->
+                            <!-- nombre, apellido, email, password, password2 y archivo(imagen) -->
+                            <div class="col-12 ">
+                                <button type="submit" class="btn btn-primary w-100 text-center boton">Registrarme</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+
+        <div class="container">
+            <footer th:replace="/fragments/footer :: footer" ></footer>
+        </div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+        <script th:replace="~{/fragments/darkmode :: script}"></script>
+        
+    </body>
+</html>

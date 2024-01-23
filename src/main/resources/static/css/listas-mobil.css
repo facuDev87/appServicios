@@ -1,0 +1,94 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 20 dic. 2023, 14:01:44
+    Author     : facun
+*/
+
+
+/* --- LISTA USUARIOS --- */
+html, body{
+    width: 100%;
+    overflow-x: hidden;
+   
+}
+.head{
+    width: 30%;
+    background-color: grey;
+}
+.data{
+    width: 70%;
+    border-left: none;
+}
+
+.fila{
+    border: solid black 2px;
+
+}
+
+.tabla-columna {
+}
+
+/*   RESPONSIVE   */
+
+@media (max-width: 900px) {
+
+    .enlaces{
+        display: none;
+    }
+    .lista-desktop {
+        display: none;
+    }
+    .lista-mobil{
+        display: table;
+    }
+    .login{
+        max-width: 80%;
+    }
+
+    .registro{
+        margin: auto;
+        max-width: 80%;
+    }
+    .imagen-comentario{
+        height: 32px;
+        width: 32px;
+        margin: 10px 0px 0px 5px;
+    }
+    .perfil-header h3{
+        text-align: center;
+    }
+    .perfil-header .icono-tarjeta {
+        display: flex;
+        justify-content: center;
+    }
+    .contrato-res{
+        margin:auto;
+        width: 80%;
+    }
+}
+@media (min-width: 901px) {
+     .enlaces{
+        display: flex;
+    }
+    .contrato-res{
+        margin: auto;
+        width: 40%; 
+    }
+    .lista-desktop {
+        display: table;
+    }
+    .lista-mobil{
+        display: none;
+    }
+    .login{
+        max-width: 50%;
+    }
+    .registro{
+        margin: auto;
+        max-width: 50%;
+    }
+}
+

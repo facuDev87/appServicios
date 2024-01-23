@@ -1,0 +1,48 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 17 ene. 2024, 11:21:19
+    Author     : facun
+*/
+/*
+.btn-calificar{
+    transition: all 0.3s ease 0s;
+    
+}
+
+.btn-calificar .gold-star{
+    display: none;
+}
+
+.btn-calificar:hover{
+    color:gold;
+    transform: scale(1.5);
+    .gold-star{
+        display: flex;
+    }
+    .dark-star{
+        display: none;
+    }
+}
+*/
+
+.rating button{
+    background: transparent;
+    border:none;
+}
+
+.star{
+    font-size: 32px;
+    color: #ddd;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.star:hover,
+.star.checked{
+    
+    color:gold;
+    
+}

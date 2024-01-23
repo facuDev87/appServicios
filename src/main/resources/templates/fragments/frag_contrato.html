@@ -1,0 +1,250 @@
+<div class="mb-3  row bg-dark contrato">
+    <div class="text-center text-white ">
+        <h3 th:text="'Contrato de Servicio '+${mensaje.proveedor.categoriaServicio}"> </h3>
+    </div>
+
+    <div class="col-4 ">
+
+        <table  class=" table table-dark table-striped text-start">
+            <thead>
+                <tr>
+                    <th colspan="3" class="text-center" scope="col"> Logo </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr >
+                    <td colspan="2" class="d-flex justify-content-center" >
+                        <img th:if="${usuario.imagen != null}" class="btn img-fluid" th:src="@{/imagen/perfil/__${mensaje.proveedor.id}__}" >
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-4 ">
+
+        <table  class="table table-dark table-striped text-start">
+            <thead>
+                <tr>
+                    <th colspan="3" class="text-center" scope="col">Proveedor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Rubro </th>
+                    <td colspan="3" th:text="${mensaje.contrato.proveedor.categoriaServicio}" ></td>
+                </tr>
+                <tr>
+                    <th scope="row">Proveedor </th>
+                    <td  colspan="3" th:text="$mensaje.contrato.proveedor.nombre}" ></td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Cliente </th>
+                    <td th:text="${mensaje.contrato.cliente.nombre}" ></td>
+                </tr>
+                <tr>
+                    <th scope="row">Honorarios </th>
+                    <td  colspan="3" th:text="'$'+${mensaje.contrato.precio} "></td>
+                </tr>
+                <tr>
+                    <th scope="row">Fecha: </th>
+                    <td  colspan="3" th:text="'Servicio programado para la fecha: '+${contrato.fechaServicio}+' a la hora '+${contrato.horaServicio}"></td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Descripcion </th>
+                    <td th:text="${contrato.servicio.descripcionServicio}" ></td>   
+                </tr>
+        </table>
+    </div>
+    <div class="col-4 ">
+        <table class="table table-dark table-striped text-start">
+            <thead>
+                <tr>
+                    <th colspan="2" class="text-center" scope="col">Estado del servicio</th>
+                </tr>
+            </thead>
+
+            <tbody th:if="${contrato.contratoIniciado == true}" >
+                <tr>
+                    <th scope="row" colspan="2">
+                        <div class="border border-primary text-center text-white bg-primary">INICIADO</div>
+                    </th>
+
+                </tr>
+                <tr>
+                    <!--<th scope="row">Cancelar servicio</th>
+                     <td th:text="${contrato.contratoCancelado} " colspan=""  ></td> -->
+                    <td ><a th:href="@{/cancelar-contrato/__${contrato.id}__}" class="btn btn-outline-warning w-100">Cancelar</a></td>
+                </tr>
+                <tr sec:authorize="hasAnyRole( 'PROVEEDOR')" >
+                    <!-- <th  scope="row" >Finalizar servicio</th> -->
+                    <!-- <td th:text="${contrato.contratoCancelado} " colspan=""  ></td> -->
+                    <td  ><a th:href="@{/finalizar-contrato/__${contrato.id}__}" class="btn btn-outline-danger w-100" >Finalizar</a></td>
+                </tr>
+            </tbody>
+
+            <tbody th:if="${contrato.contratoCancelado == true}" >
+                <tr >
+                    <th colspan="2">
+                        <div class="border border-danger text-center">CANCELADO</div>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody th:if="${contrato.contratoFinalizado == true}">
+
+                <tr colspan="2">
+                    <th scope="row">
+                        <div class="border border-success text-center">FINALIZADO</div>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row text-white text-center">
+
+        <p>Una vez finalizado puedes calificar el servicio</p>
+        <!--  <p th:text=" 'estrellas = '+${contrato.estrellas} " ></p>  -->
+
+        <div  class="d-flex justify-content-center" >
+
+            <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="">
+                <input hidden type="number" th:value="1" name="num">
+                <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                <button type="submit" class=" btn-primary link-dark ">⭐</button>
+            </form>
+            <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="">
+                <input hidden type="number" th:value="2" name="num">
+                <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                <button type="submit" class=" btn-primary link-dark ">⭐</button>
+            </form>
+            <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="">
+                <input hidden type="number" th:value="3" name="num">
+                <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                <button type="submit" class=" btn-primary link-dark ">⭐</button>
+            </form>
+            <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="">
+                <input hidden type="number" th:value="4" name="num">
+                <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                <button type="submit" class=" btn-primary link-dark ">⭐</button>
+            </form>
+            <form th:action="@{/calificacion/__${contrato.id}__}" method="POST" enctype="multipart/form-data" class="">
+                <input hidden type="number" th:value="5" name="num">
+                <input hidden type="text" th:value="${contrato.id}" name="idContrato">
+                <button type="submit" class=" btn-primary link-dark ">⭐</button>
+            </form>
+
+        </div>
+        <p th:text=" 'Calificacion = '+${contrato.calificacion} " ></p>
+    </div>
+    <!--  COMENTARIOS DEL PERFIL PROVEEDOR -->
+    <div class="row ">
+
+        <h5 class="text-white text-center" >COMUNICATE CON TU PROVEEDOR </h5>
+        <hr>
+    </div>  
+    <!-- INGRESAR COMENTARIO -->
+    <div class="row ">
+        <div class=" mx-auto p-2 ">
+
+            <div class=""  th:if="${session.usuariosession != null}" >
+                <div class="d-flex align-items-start justify-content-around">
+                    <div class="imagen-comentario me-3">
+                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" class="rounded-circle imagen-comentario" alt="usuario-imagen"> 
+                    </div>
+                    <form th:action="@{/servicios/comentario/__${contrato.proveedor.id}__}" method="POST" enctype="multipart/form-data" class="w-100">
+                        <input hidden th:value="${session.usuariosession.id}" name="id">
+                        <input hidden th:value="${contrato.proveedor.id}" name="idProveedor">
+                        <input hidden th:value="${contrato.id}" name="idContrato">
+                        <div >
+                            <textarea oninput="contarCaracteres()"  class="form-control comentario miTextarea" maxlength="250" id="miTextarea" name="comentario" rows="3" th:placeholder="${session.usuariosession.email + ', deja aqui tu mensaje para ' + contrato.proveedor.nombre}" required ></textarea>
+                        </div>
+                        <!--<div class="text-white" >
+                            <p>Total de caracteres: <span class="totalCaracteres">0</span></p>
+                            <p>Caracteres restantes: <span class="caracteresRestantes">250</span></p>
+                        </div>-->
+
+                        <button type="submit" class="btn btn-primary ">Comentar</button>
+                    </form>     
+                </div>
+            </div>
+            <div class="text-center  " th:if="${session.usuariosession == null}" >
+                <a th:href="@{/login}" type="button"  class="btn btn-outline-dark btn-warning me-2">Debe estar logueado para porder comentar</a>
+            </div>
+
+        </div>
+    </div> 
+    <!-- MOSTRAR COMENTARIOS-- iterar una lista de comentarios ordenados por fecha -->
+    <div class="row ">
+        <div class=" comentarios-container ">
+
+
+            <div class="m-3" th:each="comentario : ${contrato.comentariosServicio}">
+                <!-- ITERAR COMENTARIOS -->
+                <div class="d-flex align-items-start justify-content-around">
+                    <div class=" mx-3 ">
+                        <div th:if="${session.usuariosession.imagen != null}">
+                            <img th:src="@{/imagen/perfil/__${comentario.usuario.id}__}" class="rounded-circle imagen-comentario" alt="usuario-imagen">
+                        </div>
+                        <div th:if="${session.usuariosession.imagen == null}">
+                            <img th:src="@{/images/perfil.png}" class="rounded-circle imagen-comentario" alt="usuario-imagen">
+                        </div>
+                        <p th:utext="${comentario.usuario.email}+' '" class="fw-bolder text-white coment">Nombre Usuario></p>
+                        <p><small th:utext="${comentario.fecha}"  class="text-white text-small coment">Comentado tal FECHA Last updated 3 mins ago</small></p>
+                    </div>
+
+                    <div class="mt-4 shadow rounded-5 comentario-cita">
+                        <div class="d-flex align-items-start">
+                            <p th:utext="${comentario.comentario}"></p>
+                            <!--<p th:utext="${comentario.comentario}" class="card-text mx-3">Esto es una caja de comentarios... </p> -->
+                        </div>
+
+                        <!-- Acordeon -->
+                        <div th:if="${session.usuariosession.id == comentario.usuario.id}" class="accordion accordion-flush " id="accordionFlushExample">
+                            <div class="accordion-item " th:with="comentarioId=${comentario.id}">
+                                <h2 class="accordion-header">
+                                    <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="'#flush-collapse_' + ${comentarioId}" aria-expanded="false" th:aria-controls="'flush-collapse_' + ${comentarioId}">
+                                        Editar Comentario / Eliminar Comentario
+                                    </a>
+                                </h2>
+                                <div th:id="'flush-collapse_' + ${comentarioId}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <p th:text="'Comentario ID '+${comentarioId}">COMENTARIO</p>
+                                        <p th:text="'Contrato ID '+${contrato.id}">CONTRATO</p>
+
+                                        <form th:action="@{/modificar-comentario-usuario/__${comentario.id}__}" method="POST" enctype="multipart/form-data" class="">
+                                            <input hidden th:value="${session.usuariosession.id}" name="idUser">
+                                            <input hidden th:value="${contrato.proveedor.id}" name="idProveedor">
+                                            <input hidden th:value="${contrato.id}" name="idContrato">
+                                            <div >
+                                                <textarea  class="form-control comentario" id="comentario" name="comentario" rows="3" th:text="${comentario.comentario}"  required ></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary w-100">Editar Comentario</button>
+                                        </form>
+
+                                        <form th:action="@{/eliminar-comentario/__${comentario.id}__}" method="post">
+                                            <input hidden th:value="${session.usuariosession.id}" name="idUser">
+                                            <input hidden name="idComent" th:value="${comentarioId}">
+                                            <input hidden name="idContrato" th:value="${contrato.id}">
+
+                                            <button type="submit" class="btn btn-danger w-100 ">Eliminar Comentario</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

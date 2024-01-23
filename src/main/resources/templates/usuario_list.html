@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/fragments/head :: head" ></head>
+    <body>
+
+
+        <header th:replace="/fragments/header :: header" > </header>
+
+        <div>
+            <h2 >Lista Usuarios:</h2>
+        </div>
+
+        <div class="cabecera d-flex justify-content-center "><h3 th:if="${todos != null}"  th:text="${todos}">Todos Los Servicios registrados</h3></div> 
+        <div class="cabecera d-flex justify-content-center "><h3 th:if="${electricidad != null}"  th:text="${electricidad}">Electricidad</h3></div>
+        <div class="cabecera d-flex justify-content-center "><h3 th:if="${limpieza != null}"  th:text="${limpieza}">Limpieza</h3></div>
+        <div class="cabecera d-flex justify-content-center "><h3 th:if="${salud != null}"  th:text="${salud}">Salud</h3></div>
+        <div class="cabecera d-flex justify-content-center "><h3 th:if="${plomeria != null}"  th:text="${plomeria}">Plomeria</h3></div>
+        <div class="cabecera d-flex justify-content-center "><h3 th:if="${jardineria != null}"  th:text="${jardineria}">Jardineria</h3></div>
+        <div class="cabecera d-flex justify-content-center "><h3 th:if="${varios != null}"  th:text="${varios}" >Varios</h3></div>
+
+
+
+        <div>
+
+            <!-- Input de busqueda por Js - Nombre o Rol -->
+            <div class="form-floating mb-3">
+                <input  type="text" class="form-control" id="filtro" placeholder="ingrese algo">
+                <label  for="filtro" class="form-label text-black">Filtro Busqueda:  Nombre / Email / Rol / Activos (true - false). </label>
+
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Filtrar por 
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>  
+                            <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/usuario_lista') ? 'active dropdown-item' : 'dropdown-item'}"  th:href="@{/usuario_lista}" >Todas las Cuentas</a>
+                        </li>
+                        <li>  
+                            <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/filtro-user') ? 'active dropdown-item' : 'dropdown-item'}"  th:href="@{/filtro-user}" >Cuentas Usuarios</a>
+                        </li>
+                        <li>  
+                            <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/filtro-proveedor') ? 'active dropdown-item' : 'dropdown-item'}"  th:href="@{/filtro-proveedor}" >Cuentas Proveedor</a>
+                        </li>
+                        <li>  
+                            <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/filtro-clientes') ? 'active dropdown-item' : 'dropdown-item'}"  th:href="@{/filtro-clientes}" >Cuentas Clientes</a>
+                        </li>
+                        <li>  
+                            <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/filtro-activos') ? 'active dropdown-item' : 'dropdown-item'}"  th:href="@{/filtro-activos}" >Cuentas Activas</a>
+                        </li>
+                        <li>  
+                            <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/filtro-baja') ? 'active dropdown-item' : 'dropdown-item'}"  th:href="@{/filtro-baja}" >Cuentas Inactivas</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+            <table class="table table-dark lista-desktop table-hover" >
+                <thead class="text-center" >
+                    <tr >
+                        <!--    <th scope="col">Id del Usuario</th>   -->
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>     
+                        <th scope="col">Email</th>
+
+                        <th scope="col">Cambiar Rol</th>
+                        <th scope="col">Activo / Eliminar</th>
+                        <th scope="col">Foto de Perfil</th>
+                        <th scope="col">Modificar</th>
+
+                    </tr>
+                </thead>
+
+                <tbody th:each="usuario : ${usuarios}" class="text-center "> 
+                    <tr class="usuario"  >
+                        <!--     <th scope="row" th:text="${usuario.id}"></th>  -->
+                        <td th:text="${usuario.nombre}" class="nombre"></td>
+                        <td th:text="${usuario.apellido}"></td>  
+                        <td th:text="${usuario.email}" class="email" ></td>
+
+                        <td>
+                            <button  style="color:#668797" th:text="${usuario.rol}" class="btn btn-outline-secondary dropdown-toggle rol" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/USER}" class="dropdown-item"> USER</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/CLIENTE}" class="dropdown-item"> CLIENTE</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/PROVEEDOR}" class="dropdown-item"> PROVEEDOR</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/MOD}" class="dropdown-item"> MODERADOR</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/ADMIN}" class="dropdown-item"> ADMIN</a> </li>
+                            </ul>
+                        </td>
+
+                        <td >
+
+                            <a th:if="${usuario.activo == true}"  th:href="@{/alta/__${usuario.id}__}" th:text=" ' Activo ' " class="btn btn-outline-success activo" >Cambiar Alta/Baja</a>
+                            <a th:if="${usuario.activo == false}"  th:href="@{/alta/__${usuario.id}__}" th:text=" ' Inactivo ' " class="btn btn-outline-secondary activo" >Cambiar Alta/Baja</a>
+
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#exampleModal'+${usuario.id}"  >ELIMINAR CUENTA</button>
+                            <!--    <a th:href="@{/admin/eliminarUsuario/__${usuario.id}__}"><button type="button" class="btn mt-2 btn-outline-danger">ELIMINAR CUENTA</button></a>-->
+                            <!--  <a th:href="@{/admin/confirmarEliminarUsuario/__${usuario.id}__}"><button type="button" class="btn mt-2 btn-outline-danger">ELIMINAR CUENTA</button></a>  -->
+
+                        </td>
+                <div class="modal fade" th:id="'exampleModal'+${usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Importante!!!</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-black">
+                                <p>Esta accion eliminara definitivamente la cuenta de la base de datos. Te recomendamos dar de baja la cuenta.</p>
+                                <a  th:href="@{/alta/__${usuario.id}__}" th:text="'Cuenta activa: '+${usuario.activo}" class="btn btn-outline-secondary " >Cambiar Alta/Baja</a>
+                                <h5>Estas seguro que deseas eliminar esta cuenta ?</h5>
+                                <a th:href="@{/eliminar_cuenta/__${usuario.id}__}"><button type="button" class="btn mt-2 btn-outline-danger">ELIMINAR CUENTA</button></a>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <td  >
+                    <div class="" >
+                        <div class="row ">
+                            <div class="modal fade" th:id="'exampleModalToggle'+${usuario.id}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modificar Imagen Perfil</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form th:action="@{/modificar-imagen-perfil}" method="POST" enctype="multipart/form-data" class="row g-3">
+                                                <h4>Seleccione una nueva imagen</h4>
+                                                <div class="col-md">
+
+                                                    <img th:if="${usuario.imagen != null}" class="btn img-fluid" th:src="@{/imagen/perfil/__${usuario.id}__}" data-bs-toggle="tooltip" data-bs-title="Modificar Imagen" >
+
+                                                    <label for="imagen">Subir imagen:</label>
+                                                    <input name="archivo" type="file" id="imagen" class="form-control my-2" >
+                                                    <input hidden th:value="${usuario.id}" name="idUsuario" type="text" >
+                                                    <input hidden th:value="${usuario.rol}" name="rol" type="text" >
+                                                </div>
+                                                <div class="col-12 ">
+                                                    <button type="submit" class="btn btn-primary w-100 text-center ">Cambiar</button>
+                                                </div>
+                                            </form>
+                                            <button class="btn btn-danger w-100 mt-2" th:data-bs-target="'#exampleModalToggle2'+${usuario.id}" data-bs-toggle="modal">Eliminar Imagen</button>
+
+                                        </div>
+                                        <div class="modal-footer">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" th:id="'exampleModalToggle2'+${usuario.id}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">ELIMINAR IMAGEN</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Esta seguro que desea eliminar su imagen de perfil?  
+
+                                            <form th:action="@{/eliminar-imagen-perfil}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                                <!-- <input th:value="${session.usuariosession.imagen.id}" name="idImagen" type="text" > -->
+                                                <input hidden th:value="${usuario.id}" name="idUsuario" type="text" >
+
+                                                <div class="col-12 ">
+                                                    <button type="submit" class="btn btn-danger w-100 text-center ">Eliminar</button>
+                                                </div>
+                                            </form>
+                                            <button class="btn btn-primary w-100 mt-2" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Solo cambiar</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="imagen-list" th:data-bs-target="'#exampleModalToggle'+${usuario.id}" data-bs-toggle="modal" >
+
+                                <img th:if="${usuario.imagen != null}" class="btn img-fluid" th:src="@{/imagen/perfil/__${usuario.id}__}" data-bs-toggle="tooltip" data-bs-title="Modificar Imagen" >
+                            </a>
+
+                        </div>
+                        <!--    <a><img th:if="${usuario.imagen != null}" class="logo" th:src="@{/imagen/perfil/__${usuario.id}__}" ></a>   -->
+                        <a><img th:if="${usuario.imagen == null}" class="logo" th:src="@{/images/perfil.png}" ></a> 
+                    </div>
+                </td>
+
+                <td>
+                    <!--  <a th:href="@{/admin/modificar/__${usuario.id}__}" type="button"  class="icon-link icon-link-hover link-warning link-underline-dark link-underline-opacity-25 fs-2"  ><i class="bi bi-gear-fill"></i></a>  -->
+                    <div href="#"  type="button"  class="btn fs-4 icono-tarjeta" data-bs-toggle="tooltip" data-bs-title="Modificar Datos" >
+                        <a  type="button" data-bs-toggle="offcanvas" th:data-bs-target="'#offcanvasRight'+${usuario.id}" aria-controls="offcanvasRight">
+                            <i class="bi bi-gear-fill text-white"></i>
+                        </a>
+                    </div>
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" th:id="'offcanvasRight'+${usuario.id}" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasRightLabel">Modificar Datos</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+
+                            <form th:action="@{/modificar-datos-usuario}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                <input hidden th:value="${usuario.id}" name="idUsuario" type="text">
+                                <input hidden th:value="${usuario.rol}" name="rol" type="text">
+
+                                <div class="col-md-6">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input th:value="${usuario.nombre}" name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" >
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input th:value="${usuario.apellido}" name="apellido" type="text" class="form-control" id="apellido" placeholder="Apellido" >
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label" >Email</label>
+                                    <input  th:value="${usuario.email}" name="email" type="email" class="form-control" id="email"  placeholder="Ej: usuario@mail.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="rol" class="form-label" >ROL</label><br>
+                                    <button id="rol" th:text="${usuario.rol}" class="btn btn-outline-secondary w-100 dropdown-toggle rol" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a th:href= "@{/cambiarRol/__${usuario.id}__/USER}" class="dropdown-item"> USER</a> </li>
+                                        <li><a th:href= "@{/cambiarRol/__${usuario.id}__/CLIENTE}" class="dropdown-item"> CLIENTE</a> </li>
+                                        <li><a th:href= "@{/cambiarRol/__${usuario.id}__/PROVEEDOR}" class="dropdown-item"> PROVEEDOR</a> </li>
+                                        <li><a th:href= "@{/cambiarRol/__${usuario.id}__/MOD}" class="dropdown-item"> MODERADOR</a> </li>
+                                        <li><a th:href= "@{/cambiarRol/__${usuario.id}__/ADMIN}" class="dropdown-item"> ADMIN</a> </li>
+                                    </ul>
+                                    <!--    <input  th:value="${usuario.rol}" name="rol" type="rol" class="form-control" id="rol"  placeholder="Ej: usuario@mail.com">-->
+                                </div>
+
+                                <!-- <div th:if="${usuario.rol.name() != 'USER'}"> -->
+                                <div  class="col-md-6 "> <!-- sec:authorize="hasAnyRole('CLIENTE', 'PROVEEDOR', 'ADMIN' , 'MODERADOR')" -->
+                                    <label  for="telefono" class="form-label">Telefono</label>
+                                    <input th:value="${usuario.telefono}" name="telefono" type="text" class="form-control" id="telefono" placeholder="Ej: 0123445588">
+                                </div>
+                                <div  class="col-md-6 ">  <!-- sec:authorize="hasAnyRole('CLIENTE', 'PROVEEDOR')" -->
+                                    <label  for="direccion" class="form-label">Dirección</label>
+                                    <input th:value="${usuario.direccion}" name="direccion" type="text" class="form-control" id="direccion" placeholder="Ej: calle 1238">
+                                </div>
+                                <div class="col-md-6 ">  <!-- sec:authorize="hasAnyRole('CLIENTE', 'PROVEEDOR')"  -->
+                                    <label for="servicio" class="form-label">Tipo de servicio ofrecido</label >
+                                    <br>
+                                    <select  name="categoria" id="servicio" class="form-control" >
+                                        <option th:each="categoria : ${categorias}"
+                                                th:value="${categoria}"
+                                                th:text="${categoria.toString()}"/>
+                                    </select>
+                                </div>
+
+
+                                <!-- DATOS ENVIADOS -->
+                                <!-- nombre, apellido, email, telefono, direccion, servicio y archivo(imagen) -->
+                                <div class="col-12 ">
+                                    <button type="submit" class="btn btn-primary w-100 text-center ">Modificar</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-dark table-striped-columns lista-mobil ">
+                <tbody th:each="usuario : ${usuarios}" class="usuario">
+
+
+                    <tr class="">
+                        <th class="head nombre">Nombre</th><td th:text="${usuario.nombre}" class="data">asdasdasd</td>
+                    </tr>
+                    <tr>
+                        <th class="head">Apellido</th><td th:text="${usuario.apellido}" class="data">asdasdasd</td>
+                    </tr>
+                    <tr class="">
+                        <th class="head email">Email</th><td th:text="${usuario.email}" class="data">asdasd</td>
+                    </tr>
+                    <tr >
+                        <th class="head">Rol</th>
+                        <td class="data ">Cambiar rol 
+                            <button  style="color:#668797" th:text="${usuario.rol}" class="btn btn-outline-secondary dropdown-toggle rol" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                            <ul class="dropdown-menu">
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/USER}" class="dropdown-item"> USER</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/CLIENTE}" class="dropdown-item"> CLIENTE</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/PROVEEDOR}" class="dropdown-item"> PROVEEDOR</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/MOD}" class="dropdown-item"> MODERADOR</a> </li>
+                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/ADMIN}" class="dropdown-item"> ADMIN</a> </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <th class="head">Activo</th>
+                        <td class="data d-flex w-100">
+
+                            <a th:if="${usuario.activo == true}"  th:href="@{/alta/__${usuario.id}__}" th:text=" ' Activo ' " class="btn btn-outline-success mx-2 activo" >Cambiar Alta/Baja</a>
+                            <a th:if="${usuario.activo == false}"  th:href="@{/alta/__${usuario.id}__}" th:text=" ' Inactivo ' " class="btn btn-outline-secondary mx-2 activo" >Cambiar Alta/Baja</a>
+
+
+
+
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#exampleModal'+${usuario.id}"  >ELIMINAR CUENTA</button>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th class="head">Foto</th>
+                        <td class="data" >
+                            <div class="" >
+                                <div class="row ">
+                                    <div class="modal fade" th:id="'exampleModalToggleResp'+${usuario.id}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modificar Imagen Perfil</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <form th:action="@{/modificar-imagen-perfil}" method="POST" enctype="multipart/form-data" class="row g-3">
+                                                        <h4>Seleccione una nueva imagen</h4>
+                                                        <div class="col-md">
+
+                                                            <img th:if="${usuario.imagen != null}" class="btn img-fluid" th:src="@{/imagen/perfil/__${usuario.id}__}" data-bs-toggle="tooltip" data-bs-title="Modificar Imagen" >
+
+                                                            <label for="imagen">Subir imagen:</label>
+                                                            <input name="archivo" type="file" id="imagen" class="form-control my-2" >
+                                                            <input hidden th:value="${usuario.id}" name="idUsuario" type="text" >
+                                                            <input hidden th:value="${usuario.rol}" name="rol" type="text" >
+                                                        </div>
+                                                        <div class="col-12 ">
+                                                            <button type="submit" class="btn btn-primary w-100 text-center ">Cambiar</button>
+                                                        </div>
+                                                    </form>
+                                                    <button class="btn btn-danger w-100 mt-2" th:data-bs-target="'#exampleModalToggle2Resp'+${usuario.id}" data-bs-toggle="modal">Eliminar Imagen</button>
+
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" th:id="'exampleModalToggle2Resp'+${usuario.id}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">ELIMINAR IMAGEN</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Esta seguro que desea eliminar su imagen de perfil?  
+
+                                                    <form th:action="@{/eliminar-imagen-perfil}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                                        <!-- <input th:value="${session.usuariosession.imagen.id}" name="idImagen" type="text" > -->
+                                                        <input hidden th:value="${usuario.id}" name="idUsuario" type="text" >
+
+                                                        <div class="col-12 ">
+                                                            <button type="submit" class="btn btn-danger w-100 text-center ">Eliminar</button>
+                                                        </div>
+                                                    </form>
+                                                    <button class="btn btn-primary w-100 mt-2" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Solo cambiar</button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class=" btn btn-outline-secondary " style="width: 90%; margin: auto;" th:data-bs-target="'#exampleModalToggleResp'+${usuario.id}" data-bs-toggle="modal" >
+                                        Modificar imagen
+                                        <!-- <img th:if="${usuario.imagen != null}" class="btn img-fluid" th:src="@{/imagen/perfil/__${usuario.id}__}" data-bs-toggle="tooltip" data-bs-title="Modificar Imagen" > -->
+                                    </a>
+
+                                </div>
+                                <!--    <a><img th:if="${usuario.imagen != null}" class="logo" th:src="@{/imagen/perfil/__${usuario.id}__}" ></a>   -->
+                                <a><img th:if="${usuario.imagen == null}" class="logo" th:src="@{/images/perfil.png}" ></a> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="head">Modificar</th>
+                        <td class="data border border-bottom-4 border-top-0 border-end-0 border-start-0" >
+                            <!--  <a th:href="@{/admin/modificar/__${usuario.id}__}" type="button"  class="icon-link icon-link-hover link-warning link-underline-dark link-underline-opacity-25 fs-2"  ><i class="bi bi-gear-fill"></i></a>  -->
+                            <div href="#"  type="button"  class="btn fs-4 icono-tarjeta" data-bs-toggle="tooltip" data-bs-title="Modificar Datos" >
+                                <a  type="button" data-bs-toggle="offcanvas" th:data-bs-target="'#offcanvasRightResp'+${usuario.id}" aria-controls="offcanvasRight">
+                                    <i class="bi bi-gear-fill text-white"></i>
+                                </a>
+                            </div>
+
+                            <div class="offcanvas offcanvas-end" tabindex="-1" th:id="'offcanvasRightResp'+${usuario.id}" aria-labelledby="offcanvasRightLabel">
+                                <div class="offcanvas-header">
+                                    <h5 class="offcanvas-title" id="offcanvasRightLabel">Modificar Datos</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+
+                                    <form th:action="@{/modificar-datos-usuario}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                        <input hidden th:value="${usuario.id}" name="idUsuario" type="text">
+                                        <input hidden th:value="${usuario.rol}" name="rol" type="text">
+
+                                        <div class="col-md-6">
+                                            <label for="nombre-responsive" class="form-label">Nombre</label>
+                                            <input th:value="${usuario.nombre}" name="nombre" type="text" class="form-control" id="nombre-responsive" placeholder="Nombre" >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="apellido-responsive" class="form-label">Apellido</label>
+                                            <input th:value="${usuario.apellido}" name="apellido" type="text" class="form-control" id="apellido-responsive" placeholder="Apellido" >
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="email-responsive" class="form-label" >Email</label>
+                                            <input  th:value="${usuario.email}" name="email" type="email" class="form-control" id="email-responsive"  placeholder="Ej: usuario@mail.com">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="rol-responsive" class="form-label" >ROL</label><br>
+                                            <button id="rol-responsive" th:text="${usuario.rol}" class="btn btn-outline-secondary w-100 dropdown-toggle rol" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/USER}" class="dropdown-item"> USER</a> </li>
+                                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/CLIENTE}" class="dropdown-item"> CLIENTE</a> </li>
+                                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/PROVEEDOR}" class="dropdown-item"> PROVEEDOR</a> </li>
+                                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/MOD}" class="dropdown-item"> MODERADOR</a> </li>
+                                                <li><a th:href= "@{/cambiarRol/__${usuario.id}__/ADMIN}" class="dropdown-item"> ADMIN</a> </li>
+                                            </ul>
+                                            <!--    <input  th:value="${usuario.rol}" name="rol" type="rol" class="form-control" id="rol"  placeholder="Ej: usuario@mail.com">-->
+                                        </div>
+
+                                        <!-- <div th:if="${usuario.rol.name() != 'USER'}"> -->
+                                        <div  class="col-md-6 "> <!-- sec:authorize="hasAnyRole('CLIENTE', 'PROVEEDOR', 'ADMIN' , 'MODERADOR')" -->
+                                            <label  for="telefono-responsive" class="form-label">Telefono</label>
+                                            <input th:value="${usuario.telefono}" name="telefono" type="text" class="form-control" id="telefono-responsive" placeholder="Ej: 0123445588">
+                                        </div>
+                                        <div  class="col-md-6 ">  <!-- sec:authorize="hasAnyRole('CLIENTE', 'PROVEEDOR')" -->
+                                            <label  for="direccion-responsive" class="form-label">Dirección</label>
+                                            <input th:value="${usuario.direccion}" name="direccion" type="text" class="form-control" id="direccion-responsive" placeholder="Ej: calle 1238">
+                                        </div>
+                                        <div class="col-md-6 ">  <!-- sec:authorize="hasAnyRole('CLIENTE', 'PROVEEDOR')"  -->
+                                            <label for="servicio-responsive" class="form-label">Tipo de servicio ofrecido</label >
+                                            <br>
+                                            <select  name="categoria" id="servicio-responsive" class="form-control" >
+                                                <option th:each="categoria : ${categorias}"
+                                                        th:value="${categoria}"
+                                                        th:text="${categoria.toString()}"/>
+                                            </select>
+                                        </div>
+
+
+                                        <!-- DATOS ENVIADOS -->
+                                        <!-- nombre, apellido, email, telefono, direccion, servicio y archivo(imagen) -->
+                                        <div class="col-12 ">
+                                            <button type="submit" class="btn btn-primary w-100 text-center ">Modificar</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
+                <div class="card-body">
+                    <h5 class="card-title">Exito ð</h5>
+                    <p class="card-text" th:text="${exito}"></p>
+                </div>
+            </div>
+            <div th:if="${error}!=null" class="card text-white bg-danger mb-3 mensajeError" >
+                <div class="card-body">
+                    <h5 class="card-title">Error ð</h5>
+                    <p class="card-text" th:text="${error}"></p>
+                </div>
+            </div>
+
+            <section class="py-3 text-center container">
+                <div class="row py-lg-2">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <a style="background-color: #27363D; color:#DFE2F2!important;" th:href="@{/admin/dashboard }" class="btn btn my-2">Volver</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+        <script th:src="@{/js/script_filtro.js}" integrity="" crossorigin="anonymous"></script>
+
+        <script th:replace="~{/fragments/darkmode :: script}"></script>
+
+
+        <!--    <script >
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+            </script>   -->
+
+    </body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/fragments/head :: head" ></head>
+    <body>
+
+        <header th:replace="~{/fragments/header :: header}" > </header>
+
+        <main class="container">
+            <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary fondo">
+                <div class="col-lg-6 px-0">
+                    <img th:src="@{/images/AppS.png}" alt="logo"/>
+                    <h2 class="display-4 fst-italic">App de servicios.</h2>
+                    <p class="lead my-3 text-center">
+                        Encuentra todos los servicios que necesitas en este lugar.
+                    </p>
+                    <p class="lead mb-0 text-center "><a th:href="@{/servicios}" class="text-body-emphasis fw-bold">Ver Servicios...</a></p>
+                    
+                    
+                </div>
+            </div>
+
+            <div class="row mb-2 d-flex justify-content-evenly">
+                <div class=" card tarjeta-index shadow-sm" >
+                    <img th:src="@{images/registrousuarios.jpg}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Regístrate como Usuario.</h5>
+                        <p class="card-text">
+                            Únete a nuestra red de usuarios.
+                        </p>
+                        <a href="/registro-usuario" class="btn btn-primary">Registro Usuario</a>
+                    </div>
+                </div>
+                <div class="card tarjeta-index  shadow-sm" >
+                    <img th:src="@{images/servicios-generales2.jpg}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Regístrate como Proveedor</h5>
+                        <p class="card-text">
+                            Únete a nuestra red de proveedores.
+                        </p>
+                        <a href="/registro-proveedor" class="btn btn-primary">Registro Proveedor</a>
+                    </div>
+                </div>
+                <div class="card tarjeta-index shadow-sm" >
+                    <img th:src="@{images/servicios.png}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Sobre nosotros</h5>
+                        <p class="card-text">
+                            ¿Quiénes  somos?
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+
+                                <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#ModalNosotros" >
+                                    Ver
+                                </a>
+
+                                <!-- Modal descripcion sobre nosotros-->
+                                <div class="modal fade" id="ModalNosotros" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered ">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Quienes Somos?</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body about">
+                                                <div class="about-text">
+                                                    <h2>Descubre un Mundo de Servicios a tu Alcance</h2>
+
+                                                    <p>Bienvenido a nuestra plataforma, donde nuestro compromiso es conectar tus necesidades con una extensa red de prestadores de servicios básicos, incluyendo salud, electricidad, gasistas, y más.</p>
+
+                                                    <h3>Para los Usuarios:</h3>
+
+                                                    <ul>
+                                                        <li>Regístrate fácilmente y explora una amplia gama de servicios ofrecidos por nuestros prestadores.</li>
+                                                        <li>Programa citas de manera sencilla con profesionales de confianza.</li>
+                                                        <li>Cancela citas cuando lo necesites y califica la calidad del servicio recibido.</li>
+                                                        <li>Comunícate de forma privada con el prestador contratado y deja mensajes en su perfil.</li>
+                                                    </ul>
+
+                                                    <h3>Para los Proveedores:</h3>
+
+                                                    <ul>
+                                                        <li>Regístrate en la categoría que mejor se adapte a tus servicios.</li>
+                                                        <li>Crea y carga tus servicios, estableciendo el valor de tu trabajo.</li>
+                                                        <li>Gestiona contratos y citas: acepta, rechaza o cancela según tu disponibilidad.</li>
+                                                        <li>Comunícate de manera ordenada y privada con tus clientes.</li>
+                                                    </ul>
+
+                                                    <h3>En resumen:</h3>
+
+                                                    <p>Nuestra misión es facilitar el contacto y la contratación de servicios de calidad. Apostamos por la simplicidad, rapidez y orden en cada paso. Con nosotros, encontrar y contratar el servicio que necesitas nunca ha sido tan fácil. ¡Bienvenido a una nueva forma de satisfacer tus necesidades!</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary boton" data-bs-dismiss="modal">Cerrar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--  <a href="#" class="btn btn-primary">sobre Nosotros</a>  -->
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+        </main>
+
+
+
+
+        <div class="container">
+            <footer th:replace="~{/fragments/footer :: footer}" ></footer>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+        
+        <script th:replace="~{/fragments/darkmode :: script}"></script>
+        
+        
+    </body>
+</html>
