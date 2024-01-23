@@ -1,0 +1,76 @@
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/fragments/head :: head" ></head>
+    <body>
+
+        <header th:replace="/fragments/header :: header" > </header>
+
+        <main >
+            <div class="row registro-prov">
+
+                <div class="registro ">
+                    <div><h3 class="text-center my-5">Proveedor Registro</h3></div>
+
+                    <form th:action="@{/registro-proveedor}" method="POST" enctype="multipart/form-data" class="row g-3">
+                        <div class="col-md-6 form-floating">
+                            <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required>
+                            <label for="nombre" class="form-label">Nombre</label>
+                        </div>
+                        <div class="col-md-6 form-floating">
+                            <input name="apellido" type="text" class="form-control" id="apellido" placeholder="Apellido" required>
+                            <label for="apellido" class="form-label">Apellido</label>
+                        </div>
+                        <div class="col-md-6 form-floating">
+                            <input name="telefono" type="text" class="form-control" id="telefono" placeholder="Ej: 0123445588">
+                            <label for="telefono" class="form-label">Telefono</label>
+                        </div>
+                        <div class="col-md-6 form-floating">
+                            <input name="email" type="email" class="form-control" id="email" placeholder="Ej: proveedor@mail.com" required>
+                            <label for="email" class="form-label">Email</label>
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="servicio" class="form-label">Tipo de servicio ofrecido</label >
+                            <br>
+                            <select name="categoria" id="servicio" class="form-control" required>
+                                <option th:each="categoria : ${categorias}"
+                                        th:value="${categoria}"
+                                        th:text="${categoria.toString()}"/>
+                            </select>
+                        </div>
+                        <div class="col-md-6 ">
+                            <label for="imagen">Imagen de perfil:</label>
+                            <input name="archivo" type="file" id="imagen" class="form-control my-2" >
+                        </div>
+                        <div class="col-md-6 form-floating">
+                            <input name="password" type="password" class="form-control" id="password" placeholder="Contraseña" required>
+                            <label for="password" class="form-label">Contraseña</label>
+                        </div>
+                        <div class="col-md-6 form-floating">
+                            <input name="password2" type="password" class="form-control" id="password2" placeholder="Confirme su contraseña" required>
+                            <label for="password2" class="form-label">Confirme su contraseña</label>
+                        </div>
+
+                        <!-- DATOS ENVIADOS -->
+                        <!-- nombre, apelido, email, password, password2, telefono, categoria, archivo(imagen) -->
+                        <div class="col-12 ">
+                            <button type="submit" class="boton w-100 text-center">Registrarme</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </main>
+
+        <div class="my-5">
+            <footer th:replace="/fragments/footer :: footer" ></footer>
+        </div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+        <script th:replace="~{/fragments/darkmode :: script}"></script>
+        
+    </body>
+</html>

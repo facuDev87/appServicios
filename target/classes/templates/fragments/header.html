@@ -1,0 +1,220 @@
+<header class="p-3 text-bg-dark ">
+    <div class="container  ">
+
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start fs-5 ">
+            <img th:src="@{/images/AppS.png}" alt="logo"/>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 enlaces ">
+                <li><a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/home') ? 'active nav-link px-2 text-white' : 'nav-link px-2 text-secondary'}" href="/home" >Home</a></li>
+
+                <li th:if="${session.usuariosession != null}"  ><a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/perfil-usuario/mensajes/__${session.usuariosession.id}__') ? 'active nav-link px-2 text-white' : 'nav-link px-2 text-secondary'}" th:href="@{/perfil-usuario/mensajes/__${session.usuariosession.id}__}" >Mensajes</a></li> 
+                <li><a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/servicios') ? 'active nav-link px-2 text-white' : 'nav-link px-2 text-secondary'}" href="/servicios" >Servicios</a></li>
+                <li><a sec:authorize="hasAnyRole('ADMIN' , 'MODERADOR')" th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/usuario_lista') ? 'active nav-link px-2 text-white' : 'nav-link px-2 text-secondary'}" href="/usuario_lista" >Listas Usuarios</a></li>
+            </ul>
+
+        
+            <div th:if="${session.usuariosession == null}" class="text-end d-flex">
+                <div>
+                    <a th:href="@{/login}" type="button" class="btn btn-outline-light me-2">Login</a>
+
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registrar">
+                        REGISTRO
+                    </button>
+
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="registrar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header ">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row ">
+                                    <div class="col-sm-6 text-center img-registro-user" >
+                                        <div class="img-registro-fondo-transp">
+                                            <h5 class="card-title mb-3">Regístrate como Usuario.</h5>
+                                            <!--  <img th:src="@{images/registrousuarios.jpg}" class="card-img-top" alt="..."> -->
+                                            <p class="card-text ">
+                                                Únete a nuestra red de usuarios
+                                            </p>
+                                            <a href="/registro-usuario" class="btn btn-primary">Registro Usuario</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 text-center img-registro-prov" >
+                                        <div class="img-registro-fondo-transp">
+                                            <h5 class="card-title ">Regístrate como Proveedor.</h5>
+                                            <!--  <img th:src="@{images/servicios-generales2.jpg}" class="card-img-top" alt="..."> -->
+                                            <p class="card-text mt-3">
+                                                Únete a nuestra red de proveedores
+                                            </p>
+                                            <a href="/registro-proveedor" class="btn btn-primary">Registro Proveedor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="darkmode">
+              
+                <label id="toggle-label" for="toggle">
+                    <!--<span>&#x1F31E;</span>-->
+                    <i class="bi bi-sun-fill text-warning"></i>
+                    <input type="checkbox" id="toggle">
+                    <span class="slider"></span>
+                    <i class="bi bi-moon-stars-fill text-warning"></i>
+                    <!--<span>🌜</span>-->
+                </label>
+
+            </div> 
+            <div th:if="${session.usuariosession != null}" class="dropdown text-end lista-desktop">
+
+
+
+                <a th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle header-perfil-img" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span  th:text="${session.usuariosession.nombre}" class="mx-2 perfil-nombre"></span>
+                    <img  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+                <a th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle header-perfil-img" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span  th:text="${session.usuariosession.nombre}" class="mx-2 perfil-nombre"></span>
+                    <img th:src="@{/images/perfil.png}" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-dark  text-small ">
+                    <li><a class="dropdown-item" th:href="@{/perfil-usuario/__${session.usuariosession.id}__}">Mi Perfil</a></li>
+                    <li><a class="dropdown-item" th:href="@{'/citas/'+__${session.usuariosession.id}__}">Mis contratos</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                </ul>
+              
+            </div>
+            <div th:if="${session.usuariosession != null}" class="dropdown text-end lista-mobil">
+
+
+
+                <a th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle header-perfil-img" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span  th:text="${session.usuariosession.nombre}" class="mx-2 perfil-nombre"></span>
+                    <img  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+                <a th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle header-perfil-img" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span  th:text="${session.usuariosession.nombre}" class="mx-2 perfil-nombre"></span>
+                    <img th:src="@{/images/perfil.png}" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+             
+                <ul class="dropdown-menu dropdown-menu-dark  text-small ">
+                    <li><a class="dropdown-item" th:href="@{/perfil-usuario/__${session.usuariosession.id}__}">Mi Perfil</a></li>
+                    <li><a class="dropdown-item" th:href="@{'/citas/'+__${session.usuariosession.id}__}">Mis contratos</a></li>
+                    <li><a class="dropdown-item" href="/home" >Home</a></li>
+                    <!--  <li><a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/registro-proveedor') ? 'active nav-link px-2 text-secondary' : 'nav-link px-2 text-white'}" href="/registro-proveedor" >registroProv</a></li>
+                      <li><a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/registro-usuario') ? 'active nav-link px-2 text-secondary' : 'nav-link px-2 text-white'}" href="/registro-usuario" >registroUser</a></li>
+                      <li><a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/registro-cliente') ? 'active nav-link px-2 text-secondary' : 'nav-link px-2 text-white'}" href="/registro-cliente" >registroCliente</a></li> -->
+                    <li><a class="dropdown-item" href="/servicios" >Servicios</a></li>
+                    <li><a sec:authorize="hasAnyRole('ADMIN' , 'MODERADOR')" class="dropdown-item" href="/usuario_lista" >Listas Usuarios</a></li>
+                    <!-- <li><a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/#') ? 'active nav-link px-2 text-secondary' : 'nav-link px-2 text-white'}" href="#" >About</a></li> -->
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+
+
+  <!--  <div class="container lista-mobil">
+
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start fs-5 ">
+            <img th:src="@{/images/AppS.png}" alt="logo"/>
+
+            <div th:if="${session.usuariosession == null}" class="text-end d-flex">
+                <div>
+                    <a th:href="@{/login}" type="button" class="btn btn-outline-light me-2">Login</a>
+
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registrar">
+                        REGISTRO
+                    </button>
+
+                </div>
+
+             
+                <div class="modal fade" id="registrar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header ">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row ">
+                                    <div class="col-sm-6 text-center" >
+                                        <h5 class="card-title text-dark mb-3">Regístrate como Usuario.</h5>
+                                        <img th:src="@{images/registrousuarios.jpg}" class="card-img-top" alt="...">
+                                        <p class="card-text text-dark">
+                                            Únete a nuestra red de usuarios
+                                        </p>
+                                        <a href="/registro-usuario" class="btn btn-primary">Registro Usuario</a>
+                                    </div>
+                                    <div class="col-sm-6 text-center" >
+                                        <h5 class="card-title text-dark">Regístrate como Proveedor.</h5>
+                                        <img th:src="@{images/servicios-generales2.jpg}" class="card-img-top" alt="...">
+                                        <p class="card-text text-dark">
+                                            Únete a nuestra red de proveedores
+                                        </p>
+                                        <a href="/registro-proveedor" class="btn btn-primary">Registro Proveedor</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="darkmode">
+
+                <label id="toggle-label" for="toggle-resp">
+                    <i class="bi bi-sun-fill text-warning"></i>
+                    <input type="checkbox" id="toggle-resp">
+                    <span class="slider"></span>
+                    <i class="bi bi-moon-stars-fill text-warning"></i>
+                </label>
+
+            </div> 
+            <div th:if="${session.usuariosession != null}" class="dropdown text-end">
+
+
+                <a th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle header-perfil-img" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span  th:text="${session.usuariosession.nombre}" class="mx-2 perfil-nombre"></span>
+                    <img  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+                <a th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle header-perfil-img" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span  th:text="${session.usuariosession.nombre}" class="mx-2 perfil-nombre"></span>
+                    <img th:src="@{/images/perfil.png}" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-dark  text-small">
+                    <li><a class="dropdown-item" th:href="@{/perfil-usuario/__${session.usuariosession.id}__}">Mi Perfil</a></li>
+                    <li><a class="dropdown-item" th:href="@{'/citas/'+__${session.usuariosession.id}__}">Mis contratos</a></li>
+                    <li><a class="dropdown-item" href="/home" >Home</a></li>
+                    <li><a class="dropdown-item" href="/servicios" >Servicios</a></li>
+                    <li><a sec:authorize="hasAnyRole('ADMIN' , 'MODERADOR')" class="dropdown-item" href="/usuario_lista" >Listas Usuarios</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div> -->
+</header>

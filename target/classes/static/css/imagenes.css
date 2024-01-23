@@ -1,0 +1,390 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 5 dic. 2023, 10:51:33
+    Author     : facun
+*/
+
+
+.imagen-perfil {
+    width: 100%;
+    max-height: 80%;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.imagen-perfil img {
+    /*object-fit: cover;*/ /* Ajusta la imagen para cubrir completamente el contenedor */
+    object-position: center; /* Centra la imagen dentro del contenedor */
+    width: 100%;
+    height: 100%;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.perfil img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.btn-imagen-perfil{
+    width: 90%;
+    margin: auto;
+}
+
+.card-perfil{
+    border:none;
+}
+.card-perfil .card-header{
+    border-top: solid 1px;
+    border-radius: 0;
+}
+.modal-title{
+    color: black;
+}
+.imagen-list {
+    width: 100%;
+    height: 6em;
+    overflow: hidden;
+    margin: auto;
+}
+.imagen-list img {
+    object-fit: cover;
+    object-position: center;
+    width: 70%;
+    height: 100%;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+
+.header-perfil-img{
+    max-width: min-content;
+}
+.header-perfil-img img{
+    object-fit: cover;
+    margin: 0px;
+    width: 52px;
+    height: 52px;
+
+}
+.perfil-nombre{
+    color:#fafafa;
+}
+
+
+/* --- SERVICIOS ---- PROVEEDOR --- */
+.proveedor{
+    transition: all 0.3s ease 0s;
+}
+.proveedor:hover{
+    transform: scale(1.05);
+    /* background: #2d2c2c; */
+}
+
+.proveedor-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    border:none;
+}
+
+.proveedor-card .card-body .ver-servicio{
+    margin: auto;
+    height: 40px;
+    font-size: 15px;
+    color: #ffffff;
+    padding: 8px 16px;
+    background: #2d575d;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.proveedor-card .card-body .ver-servicio:hover{
+    background-color: #008fa3;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.serv-lista{
+    min-height: 375px;
+}
+.proveedor-img {
+    height: 225px; /* ajusta la altura según tu necesidad */
+    width: 100%; /* garantiza que la imagen se ajuste al ancho de su contenedor */
+    object-fit: scale-down; /* escala la imagen para cubrir completamente su contenedor */
+}
+
+.sin-servicios{
+    min-height: 375px
+}
+
+
+
+/* ---- COMENTARIOS -----*/
+
+.comentarios-container {
+    max-height: 500px;
+    overflow-y: scroll;
+
+
+}
+
+.comentarios-container::-webkit-scrollbar{
+    display: none;
+}
+
+.imagen-comentario{
+    height: 64px;
+    width: 64px;
+    margin: 10px 0px 0px 5px;
+}
+
+.comentario-cita{
+    background-color: white;
+    padding: 5px 20px 5px 20px;
+    width: 100%;
+    max-width: 90%;
+    color:#030303;
+}
+.comentario-cita p{
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+/* ---- Perfil Proveedor ----*/
+
+.perfil-prov{
+    /* max-width: 80%;*/
+    margin: auto;
+
+}
+.perfil-prov .tabla{
+    overflow-x: auto;
+}
+.perfil-prov .servicios{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+.perfil-prov .servicios::-webkit-scrollbar{
+    display: none;
+}
+.img-centrado{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+
+/* --- INDEX --- */
+
+.fondo{
+    width: 100%;
+    min-height: 25rem;
+    background-image: url(/images/fondo2.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.tarjeta-index{
+    margin: 5px;
+    width: 20rem;
+    background-color: transparent;
+    /* box-shadow: 0px 0px 11px 6px #d1d9e6, 0px 0px 5px 0px #f9f9f9;*/
+    border: none;
+    border-radius: 12px;
+}
+
+.card-body{
+    display: grid;
+}
+
+.tarjeta-index a{
+    height: 40px;
+    font-size: 15px;
+    color: #ffffff;
+    padding: 8px 16px;
+    background: #2d575d;
+    border: none;
+    border-radius:  50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+
+}
+
+.tarjeta-index a:hover{
+    background-color: #008fa3;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.modal-content{
+    width: 140%;
+}
+
+
+/* --- Registro Proveedores --- */
+
+.registro-prov{
+    background-image: url(/images/servicios-generales2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    height: 80%;
+    min-height: 120%;
+    margin: auto;
+
+}
+.registro-usuario{
+    background-image: url(/images/registrousuarios.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    height: 80%;
+    min-height: 100%;
+    margin: auto;
+
+}
+.img-registro-fondo-transp{
+    background-color: #efefefd1;
+    margin: auto;
+}
+.img-registro-prov{
+    background-image: url(/images/servicios-generales2.jpg);
+    background-size: cover;
+}
+.img-registro-user{
+    background-image: url(/images/registrousuarios.jpg);
+    background-size: cover;
+}
+.registro{
+    background-color: #797979a8;
+    color: lavender;
+
+    .boton:hover{
+        background-color: #008fa3;
+    }
+}
+
+.about{
+    background-image: url(/images/servicios.png);
+}
+.about-text{
+    background-color: #79797961;
+    color: aliceblue;
+}
+
+
+/* --- BOTON --- */
+
+.boton{
+    height: 40px;
+    font-size: 15px;
+    color: #ffffff;
+    padding: 8px 16px;
+    background: #254545;
+    border: none;
+    border-radius:  50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+
+}
+
+.boton:hover{
+    background-color: #486767;
+    color: #ffffff;
+    /*transform: scale(1.1);*/
+}
+
+.login{
+
+    .boton{
+        background-color : #254545;
+    }
+    .boton:hover{
+        background-color: #008fa3;
+        color: #ffffff;
+    }
+}
+.login i {
+    font-size: 154px;
+
+}
+
+
+
+.coment{
+    margin: auto;
+}
+
+.link{
+    text-decoration: none;
+}
+
+.table>:not(caption)>*>* {
+    border-bottom-width:inherit ;
+}
+
+
+
+footer img{
+    max-width: 20%;
+}
+header img{
+    max-width: 80px;
+    width: 100%;
+    margin-right: 10px;
+}
+
+.fondo img{
+    max-width: 50%;
+}
+
+.cabecera{
+    background: #27363D;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+
+.mensajes{
+
+}
+.contacto{
+
+}
+.msj{
+
+}
+
+.contrato .contenedor-imagen{
+    max-width: 70%;
+    margin: auto;
+}
+.contrato .contenedor-imagen img{
+    object-fit: cover;
+}
+
+.servicios .card{
+    min-height: 100%;
+}
+
+.mensajes-container {
+    max-height: 500px;
+    overflow-y: scroll;
+
+
+}
+
+.mensajes-container::-webkit-scrollbar{
+    display: none;
+}

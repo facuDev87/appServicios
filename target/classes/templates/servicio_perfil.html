@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head" ></head>
+    <body>
+        <header th:replace="/fragments/header :: header" ></header> 
+
+        <main>
+
+            <div class="container">
+
+                <div class="d-flex justify-content-evenly ">
+
+                    <div >
+                        <h5 th:text="${proveedor.nombre}">Proveedor nombre</h5> <!--  th:text="${proveedor.nombre}" -->
+                    </div>
+                    <div >
+                        <h5 th:text="${proveedor.categoriaServicio}"> Categoria Srevicio</h5> <!--  th:text="${proveedor.categoriaServicio}" -->
+                    </div>
+                    <div >
+                        <!--        <small style="margin-left: 10px" th:if="${session.usuariosession == null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐</small>
+                                    <small th:if="${session.usuariosession != null}" class="text-body-secondary">⭐ ⭐ ⭐ ⭐ ⭐ Calificacion</small>    -->
+                        <!--   <p > ⭐ ⭐ ⭐ ⭐ ⭐</p>  th:text=" 'Calificacion General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}"  -->
+                        <div th:if="${proveedor.promedioGeneral != null}">
+                            <p th:text="${proveedor.promedioGeneralString}+' '+${proveedor.promedioGeneral}" ></p>
+                        </div>
+                        <div th:if="${proveedor.promedioGeneral == null}">
+                            <p th:text="${'Sin calificación'}" ></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row perfil-prov">
+                    <div class="col-md-4">
+                        <div class="img-centrado">
+                            <img class="img-fluid mt-2 " th:src="@{/imagen/perfil/__${proveedor.id}__}" alt="Img Servicio">
+                        </div>
+                        <div class="tabla" >
+                            <table class="table  mt-2" >
+                                <tbody>
+
+                                    <tr>
+                                        <th  th:text="'Nombre: '+${proveedor.nombre}" scope="row"></th>
+                                    </tr>
+                                    <tr>
+                                        <th th:text="'Teléfono: '+${proveedor.telefono}" scope="row"></th>
+                                    </tr>
+                                    <tr>
+                                        <th th:text="'Email: '+${proveedor.email}" scope="row"></th>
+                                    </tr>
+                                    <tr>
+                                        <th th:text="'Matricula: '+${proveedor.id}" scope="row"></th>
+                                    </tr>
+                                    <tr>
+                                        <th th:text="'Sobre este proveedor '" >
+                                            Mis estudios o cosas de mi servicio  asdasd asdas asdasd asdasdasd asdasdasdas asd asdasdas dasdas dasdas adsdasda sda dasdas asdas 
+                                        </th> 
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-8" >
+                        
+                        <h3 class="text-center mt-3">Servicios ofrecidos por este proveedor.</h3>
+
+                        <div th:if="${session.usuariosession.id == proveedor.id}" class="m-auto mb-3">
+                            <div class="card mx-3 ">
+                                <div class="card-body mt-auto">
+                                    <p class="card-text">Proveedor, agrega un servicio.</p>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Cargar Servicio
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header text-center">
+                                                    <h1 class="modal-title fs-5 " id="exampleModalLabel"></h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <fieldset> <!-- disabled -->
+                                                        <legend class="text-center mb-4">Registro de Servicio</legend>
+
+                                                        <form th:action="@{/servicios-control/registro-servicio}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                                            <div class="col-6">
+                                                                <label for="proveedor" class="form-label">Proveedor</label>
+                                                                <input name="nombre" type="text" class="form-control" th:value="${session.usuariosession.nombre}" placeholder="Nombre" required>  
+                                                                <input hidden name="idProveedor" type="text" id="proveedor" th:value="${session.usuariosession.id}" >
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="precioServicio" class="form-label">Precio</label>
+                                                                <input name="precioServicio" type="number" class="form-control" id="precioServicio"  placeholder="Ej: $100" required >
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <label for="descripcion" class="form-label">Descripción</label>
+                                                                <textarea name="descripcionServicio"  class="form-control" id="descripcion" placeholder="Descripción del servicio" required></textarea>
+                                                            </div>
+
+                                                            <!-- DATOS ENVIADOS -->
+                                                            <!-- nombre, apellido, email, password, password2 y archivo(imagen) -->
+                                                            <div class="col-12 ">
+                                                                <button type="submit" class="btn btn-primary w-100 text-center ">Registrar Servicio</button>
+                                                            </div>
+
+                                                        </form>
+
+                                                    </fieldset>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ITERA LA LISTA SERVICIOS DEL PROVEEDOR -->
+                        <div class=" row d-flex align-items-center justify-content-center sin-servicios">
+
+                            <div th:if="${#lists.isEmpty(proveedor.servicios)}" class="m-auto">
+                                <div class="card mx-3 bg-warning">
+                                    <div class="card-body m-auto">
+                                        <p class="card-text fs-5 fw-bold text-center">Sin servicios por el momento.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div th:unless="${#lists.isEmpty(proveedor.servicios)}" class="servicios row row-cols-sm-2 g-3" >
+
+                                <div  th:each="servicio : ${proveedor.servicios}" >
+
+                                    <div class="card mx-3">
+                                        <div class="card-body shadow">
+                                            <h5 th:text="${servicio.descripcionServicio}"  class="card-title">Card title</h5>
+                                            <!-- <p th:text="'Descripcion Servicio : '+${servicio.descripcionServicio}" class="card-text" ></p> -->
+                                            <p  th:text="'Dato Proveedor : '+${servicio.proveedor.email}" class="card-text" ></p>
+                                            <!-- <p th:text="'Servicio ID : '+${servicio.id}" class="card-text" ></p> -->
+                                            <p  th:text="'Precio Servicio : $'+${servicio.precioServicio}" class="card-text" ></p>
+                                            <div th:if="${servicio.calificacionServicio != null}">
+                                                <p th:text=" 'CALIFICACIÓN  ESTRELLAS'+${servicio.estrellasCalificacionServicio} + ${servicio.calificacionServicio} " ></p>
+                                            </div>
+                                            <div th:if="${servicio.calificacionServicio == null}">
+                                                <p  th:text="'Sin calificaciones '" class="card-text" ></p>
+                                            </div>
+                                            <div th:if="${session.usuariosession.id != servicio.proveedor.id}" >                    
+                                                <a th:text="'Contrata el servicio de :  '+${proveedor.nombre}" th:href="@{/confirmar-cita/__${servicio.id}__}" class="btn btn-secondary">ARREGLAR UNA CITA.</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Comentarioss -->
+                <div class="row ">
+
+                    <h5>COMENTARIOS</h5>
+                    <hr>
+                </div>  
+                <!-- INGRESAR COMENTARIO -->
+                <div class="row">
+                    <div class="mx-auto p-2">
+                        <div class="" th:if="${session.usuariosession != null}">
+                            <div class="d-flex align-items-start justify-content-around">
+                                <div class="imagen-comentario me-3">
+                                    <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" class="rounded-circle imagen-comentario" alt="usuario-imagen"> 
+                                </div>
+                                <form th:action="@{/servicios/proveedor/__${proveedor.id}__}" method="POST" enctype="multipart/form-data" class="w-100">
+                                    <input hidden th:value="${session.usuariosession.id}" name="id">
+                                    <input hidden th:value="${proveedor.id}" name="idProveedor">
+                                    <div>
+                                        <textarea class="form-control comentario" id="comentario" name="comentario" rows="3" th:placeholder="${session.usuariosession.nombre + ', deja aquí tu comentario.'}" required></textarea>
+                                        <!-- <small style="color: mediumvioletred!important;font-size: medium;font-weight: 500;" id="charCount" class="form-text text-muted">255 caracteres restantes.</small> -->
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-2 w-100">Comentar</button>
+                                </form>   
+                            </div>
+                        </div>
+                        <div class="text-center" th:if="${session.usuariosession == null}">
+                            <a th:href="@{/login}" type="button" class="btn btn-outline-dark btn-warning me-2">Debe iniciar sesión para poder comentar.</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOSTRAR COMENTARIOS-- iterar una lista de comentarios ordenados por fecha -->
+                <div class="row ">
+                    <div class="comentarios-container ">
+
+                        <div class=" m-3" th:each="comentario : ${proveedor.comentarios}">
+                            <!-- ITERAR COMENTARIOS -->
+                            <div class="d-flex align-items-start justify-content-around">
+                                <div class=" mx-3 ">
+                                    <div th:if="${session.usuariosession.imagen != null}">
+                                        <img th:src="@{/imagen/perfil/__${comentario.usuario.id}__}" class="rounded-circle imagen-comentario" alt="usuario-imagen">
+                                    </div>
+                                    <div th:if="${session.usuariosession.imagen == null}">
+                                        <img th:src="@{/images/perfil.png}" class="rounded-circle imagen-comentario" alt="usuario-imagen">
+                                    </div>
+                                    <p th:utext="${comentario.usuario.email}+' '" class="fw-bolder coment">Nombre Usuario></p>
+                                    <p th:utext="${comentario.fecha}" ><small class="text-body-secondary text-small coment">Comentado tal FECHA Last updated 3 mins ago</small></p>
+                                </div>
+
+                                <div class="shadow-sm rounded-5 comentario-cita">
+                                    <div class="d-flex align-items-start">
+                                        <p th:utext="${comentario.comentario}"></p>
+                                        <!--<p th:utext="${comentario.comentario}" class="card-text mx-3">Esto es una caja de comentarios... </p> -->
+
+
+                                    </div>
+
+                                    <!-- Acordeon -->
+                                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="'#flush-collapse_' + ${comentario.id}" aria-expanded="false" th:aria-controls="'flush-collapse_' + ${comentario.id}">
+                                                    Editar/Eliminar Comentario
+                                                </a>
+                                            </h2>
+                                            <div th:id="'flush-collapse_' + ${comentario.id}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">
+                                                    <form th:action="@{/modificar-comentario/__${comentario.id}__}" method="POST" enctype="multipart/form-data" >
+                                                        <input hidden th:value="${proveedor.id}" name="idProv">
+                                                        <input hidden th:value="${comentario.id}" name="idComent">
+                                                        <div>
+                                                            <textarea th:value="${comentario.comentario}" class="form-control comentario" id="comentario" name="comentario" rows="3" th:placeholder="${session.usuariosession.nombre + ', deja aquí tu comentario para '+ proveedor.nombre}" required></textarea>
+                                                           <!-- <small style="color: mediumvioletred!important;font-size: medium;font-weight: 500;" id="charCount" class="form-text text-muted">255 caracteres restantes</small> -->
+                                                        </div>
+                                                        <button style="width: -webkit-fill-available;" type="submit" class="btn mt-2 btn-primary">Editar Comentario</button>
+                                                    </form>
+                                                    <form th:action="@{/eliminar-comentario-proveedor/__${comentario.id}__}" method="post">
+                                                        <input hidden name="idComent" th:value="${comentario.id}">
+                                                        <input hidden name="idProv" th:value="${proveedor.id}">
+                                                        <button style="width: -webkit-fill-available;" type="submit" class="btn mt-2 btn-danger">Eliminar Comentario</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </main>
+
+        <div class="container">
+            <footer th:replace="/fragments/footer :: footer" > </footer>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+
+        <script th:replace="~{/fragments/darkmode :: script}"></script>
+
+    </body>
+</html>

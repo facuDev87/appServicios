@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="~{/fragments/head :: head}" > </head>
+    <body>
+        <!--<header th:replace="/fragments/header :: header" ></header> -->
+        <header th:replace="~{/fragments/header :: header}" ></header> 
+
+        <main>
+
+            <div class="cabecera d-flex justify-content-center "><h3 th:if="${todos != null}"  th:text="${todos}">Todos Los Servicios registrados</h3></div> 
+            <div class="cabecera d-flex justify-content-center "><h3 th:if="${electricidad != null}"  th:text="${electricidad}">Electricidad</h3></div>
+            <div class="cabecera d-flex justify-content-center "><h3 th:if="${limpieza != null}"  th:text="${limpieza}">Limpieza</h3></div>
+            <div class="cabecera d-flex justify-content-center "><h3 th:if="${salud != null}"  th:text="${salud}">Salud</h3></div>
+            <div class="cabecera d-flex justify-content-center "><h3 th:if="${plomeria != null}"  th:text="${plomeria}">Plomeria</h3></div>
+            <div class="cabecera d-flex justify-content-center "><h3 th:if="${jardineria != null}"  th:text="${jardineria}">Jardineria</h3></div>
+            <div class="cabecera d-flex justify-content-center "><h3 th:if="${varios != null}"  th:text="${varios}" >Varios</h3></div>
+
+
+           
+            
+            <div class="dropdown container">
+                <button class="btn btn-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtrar por categoria
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li>  
+                        <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/servicios') ? 'active dropdown-item' : 'dropdown-item'}"  th:href="@{/servicios}" >TODOS</a>
+                    </li>
+                    <li>  
+                        <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/electricidad') ? 'active dropdown-item' : 'dropdown-item'}" href="/electricidad" >Electricidad</a>
+                    </li>
+                    <li>  
+                        <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/salud') ? 'active dropdown-item' : 'dropdown-item'}" href="/salud" >Salud</a>
+                    </li>
+                    <li>  
+                        <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/plomeria') ? 'active dropdown-item' : 'dropdown-item'}" href="/plomeria" >Plomeria</a>
+                    </li>
+                    <li>  
+                        <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/limpieza') ? 'active dropdown-item' : 'dropdown-item'}" href="/limpieza">Limpieza</a>
+                    </li>
+                    <li>  
+                        <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/jardineria') ? 'active dropdown-item' : 'dropdown-item'}" href="/jardineria" >Jardineria</a>
+                    </li>
+                    <li>  
+                        <a th:class="${#strings.equals(httpServletRequest.getRequestURI(), '/varios') ? 'active dropdown-item' : 'dropdown-item'}" href="/varios" >Varios</a>
+                    </li> 
+                </ul>
+            </div>
+
+
+            <div  class="serv-lista py-5 container"> 
+                <div class="container">
+                    
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+                        <div th:each="proveedor : ${proveedoresOrdenados}"  class="col">
+                            <div class="card shadow  proveedor proveedor-card">
+                                <a >
+                                    <img class="proveedor-img" th:src="@{/imagen/perfil/__${proveedor.id}__}" alt="Servicio foto"/>
+                                </a>
+                                <div class="card-body">
+                                    <div class="row pb-3">
+                                        <div class="col">
+                                            <p th:text="${proveedor.nombre}"  class="card-text">Proveedor Nombre</p>
+                                        </div>
+
+                                        <div th:if="${proveedor.promedioGeneralString != null}" class="col">
+
+                                            <p th:text=" 'calificación General' + ${proveedor.promedioGeneralString} + ${proveedor.promedioGeneral}" >calificacion general - ⭐ ⭐ ⭐ ⭐ ⭐</p>
+                                        </div>
+                                        <div th:if="${proveedor.promedioGeneralString == null}" class="col">
+
+                                            <p th:text=" 'Sin calificación' " ></p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="bg-warning btn w-100" th:if="${session.usuariosession == null}" >
+                                            <a class=" link-dark link" th:href="@{/login}">Inicia sesión para acceder al contenido.</a>
+                                        </div>
+                                        <div th:if="${session.usuariosession != null}" class="btn-group w-100">
+                                            <a th:href="@{/servicio-perfil/__${proveedor.id}__}" type="button" class="btn ver-servicio">Ver Servicio</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </main>
+
+        <div class="container">
+            <footer th:replace="~{/fragments/footer :: footer}" > </footer>
+        </div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+        <script th:replace="~{/fragments/darkmode :: script}"></script>
+        
+    </body>
+</html>

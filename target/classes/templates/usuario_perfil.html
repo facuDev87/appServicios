@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="~{/fragments/head :: head}" > 
+    </head>
+    <body>
+
+        <header th:replace="~{/fragments/header :: header}" > </header>
+
+        <main class="container perfil-usuario">
+            <div class="row justify-content-center">
+                <div class="row">
+                    <h1 class="text-center">Perfil Usuario</h1>
+                    <p class="text-center" th:text="'HOLA '+${session.usuariosession.nombre}" ></p>
+
+                    <div class="card card-perfil mb-3" >
+                        <div class="card-header bg-transparent ">
+                            <div class='row '>
+                                <div class="col-sm-4 perfil-header ">
+                                    <h3 th:text="${session.usuariosession.nombre}">Perfil de usuario</h3> 
+                                </div>
+                                <div class="col-sm-6 perfil-header ">
+                                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                                        <li><a class="nav-link px-2" th:href="@{/perfil-usuario/__${session.usuariosession.id}__}" >Perfil</a></li>
+                                        <li><a class="nav-link px-2" th:href="@{/perfil-usuario/mensajes/__${session.usuariosession.id}__}" >Mensajes</a></li>
+                                        <li th:text="${usuario.notificacion}"></li>
+                                    </ul>
+                                </div>
+                                <!-- Boton Modificar Perfil -->
+                                <div class="col-sm-2 perfil-header">
+                                    <div href="#"  type="button"  class="btn fs-4 icono-tarjeta " data-bs-toggle="tooltip" data-bs-title="Modificar Datos" >
+
+                                        <a  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
+                                    </div>
+
+
+
+                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasRightLabel">Modificar Datos</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+
+
+                                            <form th:action="@{/modificar-datos-usuario}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                                <input hidden th:value="${session.usuariosession.id}" name="idUsuario" type="text">
+                                                <input hidden th:value="${session.usuariosession.rol}" name="rol" type="text">
+
+
+                                                <div class="col-md-12">
+                                                    <label for="nombre" class="form-label">Nombre</label>
+                                                    <input th:value="${session.usuariosession.nombre}" name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" >
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="apellido" class="form-label">Apellido</label>
+                                                    <input th:value="${session.usuariosession.apellido}" name="apellido" type="text" class="form-control" id="apellido" placeholder="Apellido" >
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="email" class="form-label" >Email</label>
+                                                    <input  th:value="${session.usuariosession.email}" name="email" type="email" class="form-control" id="email"  placeholder="Ej: usuario@mail.com">
+                                                </div>
+
+                                                <div class="my-3" th:if="${session.usuariosession.rol != 'USER'}">
+                                                    <div class="col-md-12" sec:authorize="hasAnyRole('CLIENTE', 'PROVEEDOR', 'ADMIN' , 'MODERADOR')">
+                                                        <label  for="telefono" class="form-label">Telefono</label>
+                                                        <input th:value="${session.usuariosession.telefono}" name="telefono" type="text" class="form-control" id="telefono" placeholder="Ej: 0123445588">
+                                                    </div>
+                                                    <div class="col-md-12 my-3" sec:authorize="hasAnyRole('CLIENTE')">
+                                                        <label  for="direccion" class="form-label">Dirección</label>
+                                                        <input th:value="${session.usuariosession.direccion}" name="direccion" type="text" class="form-control" id="direccion" placeholder="Ej: calle 1238">
+                                                    </div>
+                                                    <div class="col-md-12 my-3" sec:authorize="hasAnyRole('PROVEEDOR')" >
+                                                        <label for="servicio" class="form-label">Tipo de servicio ofrecido</label >
+                                                        <br>
+                                                        <select  name="categoria" id="servicio" class="form-control" >
+                                                            <option th:each="categoria : ${categorias}"
+                                                                    th:value="${categoria}"
+                                                                    th:text="${categoria.toString()}"/>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div th:if="${session.usuariosession.rol == 'USER'}">
+                                                    <input value="null" name="telefono" type="text" >
+                                                    <input value="null" name="direccion" type="text">
+                                                    <input value="null" name="categoria" type="text">
+                                                </div>
+
+
+                                                <div class="col-12 ">
+                                                    <button type="submit" class="btn btn-primary w-100 text-center ">Modificar</button>
+                                                </div>
+                                            </form>
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                        <div class="card-body text-success row d-flex">
+
+                            <div class="col-md-4 ">
+                                <!--  <div class="col-3 imagen-perfil">
+                                      <img  th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="alt"/>
+                                  </div>  -->
+
+                                <div th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" class=" d-flex imagen-perfil">
+                                    <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}">
+                                </div>
+
+                                <div th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" class=" d-flex imagen-perfil">
+                                    <img th:src="@{/images/perfil.png}">
+                                </div>
+
+                                <div class="row">
+                                    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modificar Imagen Perfil</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+
+                                                    <div th:if="${session.usuariosession != null and session.usuariosession.imagen != null}" class=" d-flex imagen-perfil">
+                                                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}">
+                                                    </div>
+
+                                                    <div th:if="${session.usuariosession != null and session.usuariosession.imagen == null}" class=" d-flex imagen-perfil">
+                                                        <img th:src="@{/images/perfil.png}">
+                                                    </div>
+
+
+                                                    <form th:action="@{/modificar-imagen-perfil}" method="POST" enctype="multipart/form-data" class="row g-3">
+                                                        <h4 class="text-black">Seleccione una nueva imagen</h4>
+                                                        <div class="col-md-12">
+                                                            <label for="imagen">Subir imagen:</label>
+                                                            <input name="archivo" type="file" id="imagen" class="form-control my-2" >
+                                                            <input hidden th:value="${session.usuariosession.id}" name="idUsuario" type="text" >
+                                                            <input hidden th:value="${session.usuariosession.rol}" name="rol" type="text" >
+                                                        </div>
+                                                        <div class="col-md-12 ">
+                                                            <button type="submit" class="btn btn-primary w-100 text-center ">Cambiar</button>
+                                                        </div>
+                                                    </form>
+                                                    <button class="btn btn-danger w-100 mt-2" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Eliminar Imagen</button>
+
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">ELIMINAR IMAGEN</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Esta seguro que desea eliminar su imagen de perfil?  
+
+                                                    <form th:action="@{/eliminar-imagen-perfil}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                                        <!-- <input th:value="${session.usuariosession.imagen.id}" name="idImagen" type="text" > -->
+                                                        <input th:value="${session.usuariosession.id}" name="idUsuario" type="text" >
+
+                                                        <div class="col-12 ">
+                                                            <button type="submit" class="btn btn-danger w-100 text-center ">Eliminar</button>
+                                                        </div>
+                                                    </form>
+                                                    <button class="btn btn-primary w-100 mt-2" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Solo cambiar</button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-imagen-perfil" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Imagen de Perfil</button>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm">
+                                <table  class="table">
+                                    <tbody>
+                                        <tr >
+                                            <th scope="row">Nombre</th>
+                                            <td th:text="${session.usuariosession.nombre}" ></td>
+                                        </tr>
+                                        <tr >
+                                            <th scope="row">Apellido</th>
+                                            <td th:text="${session.usuariosession.apellido}" ></td>
+                                        </tr>
+
+                                        <tr >
+                                            <th scope="row">Email</th>
+                                            <td  colspan="4" th:text="${session.usuariosession.email}" ></td>
+                                        </tr>
+                                        <tr >
+                                            <th scope="row">Rol</th>
+                                            <td colspan="4" th:text="${session.usuariosession.rol}"></td>
+                                        </tr>
+                                        <tr sec:authorize="hasAnyRole('CLIENTE')"   >
+                                            <th scope="row">Servicios contratados</th>
+                                            <td colspan="4">
+                                                <a class="btn btn-outline-primary" th:href="@{'/citas/'+__${session.usuariosession.id}__}">contratos</a>
+                                            </td>
+                                        </tr>
+
+                                        <!-- SOLO PROVEEDOR --- BOTON CREAR SERVICIO -->
+
+                                        <tr  sec:authorize="hasAnyRole( 'PROVEEDOR')" > <!-- th:if="${session.usuariosession.rol != rol.PROVEEDOR}" -->
+                                            <th scope="row">Crear Servicios Proveedor</th>
+                                            <td colspan="4">
+
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    Cargar Servicio
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header text-center">
+                                                                <h1 class="modal-title fs-5 " id="exampleModalLabel"></h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <fieldset> <!-- disabled -->
+                                                                    <legend class="text-center mb-4">Registro de Servicio</legend>
+
+                                                                    <form th:action="@{/servicios-control/registro-servicio}" method="POST" enctype="multipart/form-data" class="row g-3">
+
+                                                                        <div class="col-6">
+                                                                            <label for="proveedor" class="form-label">Proveedor</label>
+                                                                            <input name="nombre" type="text" class="form-control" th:value="${session.usuariosession.nombre}" placeholder="Nombre" required>  
+                                                                            <input hidden name="idProveedor" type="text" id="proveedor" th:value="${session.usuariosession.id}" >
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label for="precioServicio" class="form-label">Precio</label>
+                                                                            <input name="precioServicio" type="number" class="form-control" id="precioServicio"  placeholder="Ej: $100" required >
+                                                                        </div>
+
+
+                                                                        <div class="col-12">
+                                                                            <label for="descripcion" class="form-label">Descripcion</label>
+                                                                            <textarea name="descripcionServicio"  class="form-control" id="descripcion" placeholder="Descripcion del servicio" required></textarea>
+                                                                        </div>
+
+                                                                        <!-- DATOS ENVIADOS -->
+                                                                        <!-- nombre, apellido, email, password, password2 y archivo(imagen) -->
+                                                                        <div class="col-12 ">
+                                                                            <button type="submit" class="btn btn-primary w-100 text-center ">Registrar Servicio</button>
+                                                                        </div>
+
+                                                                    </form>
+
+                                                                </fieldset>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <!--    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-primary">Save changes</button> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+
+                                        <tr >
+                                            <th scope="row">Usuario desde</th>
+                                            <td  colspan="4" th:text="${session.usuariosession.ultimaConexion}"></td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <!-- <h5 class="card-title">Success card title</h5>
+                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        </div>
+                        <div class="card-footer bg-transparent border-secondary"></div>
+                    </div>        
+                </div>
+
+
+            </div>
+
+
+        </main>
+        <div class="container">
+            <footer th:replace="~{/fragments/footer :: footer}" ></footer>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+        <!-- <script th:src="@{js/darkmode.js}" ></script> -->
+        <script th:replace="~{/fragments/darkmode :: script}"></script>
+
+        
+         <script >
+             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+         </script>
+        
+    </body>
+</html>
